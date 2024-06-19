@@ -15,6 +15,7 @@
 						<img class="columns__drag" src="@assets/images/drag.svg" alt="drag" />
 						<label :for="`input${id}`">{{ head }}</label>
 						<div class="dragging"></div>
+						<div class="dragging-placeholder"></div>
 					</div>
 				</VueDraggable>
 			</Drop>

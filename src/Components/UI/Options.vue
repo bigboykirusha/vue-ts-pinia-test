@@ -1,7 +1,7 @@
 <template>
 	<button @click="showOptionsHandler($event)" class="options field" :class="`options_${index}`">
 		<img src="@assets/images/options.png" alt="options" ref="refOptions" />
-		<Teleport to="#app">
+		<Teleport to="body">
 			<Transition name="fade">
 				<button @click="$emit('delete')" v-if="showDrop" class="options__drop" :style="optionsPosition">
 					Удалить
@@ -11,7 +11,7 @@
 	</button>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, reactive } from "vue";
 
 const index = Math.ceil(Math.random() * new Date().getTime());
@@ -29,7 +29,6 @@ const refOptions = ref(null);
 const optionsPosition = reactive({ top: 0, left: 0 });
 const showOptionsHandler = e => {
 	const position = refOptions.value.getBoundingClientRect();
-	console.log(position);
 	optionsPosition.top = position.top + position.height + 5 + "px";
 	optionsPosition.left = position.left + "px";
 	showDrop.value = !showDrop.value;
@@ -49,6 +48,12 @@ const showOptionsHandler = e => {
 	background-color: transparent;
 	border: none;
 
+	@media (max-width: 768px) {
+		align-items: start;
+		padding: 0;
+		height: auto !important;
+	}
+
 	& img {
 		width: 3px;
 		height: 13px;
@@ -67,14 +72,10 @@ const showOptionsHandler = e => {
 		z-index: 10;
 		font-size: 14px;
 		color: #ae0a0a;
-	}
-}
 
-@media (max-width: 768px) {
-	.options {
-		align-items: start;
-		padding: 0;
-		height: auto !important;
+		@media (max-width: 768px) {
+			position: fixed;
+		}
 	}
 }
 </style>

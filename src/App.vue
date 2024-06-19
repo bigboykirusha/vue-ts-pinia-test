@@ -12,7 +12,6 @@ import { RouterView } from "vue-router";
 </script>
 
 <style lang="scss">
-
 .container {
 	width: 100%;
 	min-height: 100vh;
@@ -20,6 +19,10 @@ import { RouterView } from "vue-router";
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
+
+	@media (max-width: 992px) {
+		padding: 16px 10px;
+	}
 }
 
 .menu {
@@ -30,24 +33,6 @@ import { RouterView } from "vue-router";
 
 	@media (max-width: 992px) {
 		display: none;
-	}
-}
-
-.drop {
-	display: flex;
-	flex-direction: column;
-	font-size: 14px;
-	color: #161616;
-
-	&__title {
-		padding: 7px 10px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		&:hover {
-			background-color: #eef3f8;
-		}
 	}
 }
 
@@ -87,13 +72,4 @@ import { RouterView } from "vue-router";
 	}
 }
 
-@media (max-width: 992px) {
-	.container {
-		padding: 16px 10px;
-	}
-
-	#app {
-		padding-left: 0;
-	}
-}
 </style>

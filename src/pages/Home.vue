@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, nextTick } from 'vue';
 import AddField from '../Components/Add.vue';
 import Table from '../Components/Table.vue';
 import Cart from '../Components/Cart.vue';
@@ -36,6 +36,12 @@ const addItem = () => {
 		name: { text: 'Мраморный щебень', value: 'marble' },
 		total: 1500,
 	});
+	nextTick(() => {
+		window.scrollTo({
+			top: document.body.scrollHeight,
+			behavior: 'smooth'
+		});
+	});
 };
 
 const saveChanges = () => {
@@ -51,9 +57,13 @@ const saveChanges = () => {
 		border: solid 1px var(--pale-grey);
 		border-radius: var(--borderR);
 		padding-bottom: 25px;
-		
 
-		@media (max-width: 768px) {}
+
+		@media (max-width: 768px) {
+			box-shadow: none;
+			border-radius: none;
+			border: none;
+		}
 	}
 
 	&__options {

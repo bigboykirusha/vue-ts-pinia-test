@@ -19,7 +19,7 @@
 					<td class="table__cell" v-for="({ field, head, id }, index) in tableStructure" :key="`${id}-${index}`"
 						:style="{ width: columnWidths[index] }">
 						<p class="table__cell-head">{{ head }}</p>
-						<component @change="handleItemChange" v-model="item[field]" :is="componentMap[field].component"
+						<component @change="handleItemChange" v-model="item[field]"  :is="componentMap[field].component"
 							:index="itemIndex" :options="componentMap[field].options" :disabled="componentMap[field].disabled"
 							@delete="handleItemDelete(itemIndex)" />
 						<div class="dragging-placeholder"></div>

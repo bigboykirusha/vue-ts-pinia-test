@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { createPinia } from 'pinia';
 import { createRouter, createWebHistory } from "vue-router";
-import "@assets/style/main.scss";
+import "@assets/styles/main.scss";
 import App from "./App.vue";
 
 import Home from "./pages/Home.vue";

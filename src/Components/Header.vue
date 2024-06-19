@@ -37,7 +37,7 @@ const toggleMenu = (): void => {
 
 const closeMenu = (): void => {
 	isMenuActive.value = false;
-	updateScrollState(false);
+	updateScrollState(isMenuActive.value);
 };
 
 const updateScrollState = (disable: boolean): void => {
@@ -46,25 +46,6 @@ const updateScrollState = (disable: boolean): void => {
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-	display: flex;
-	height: 100%;
-	overflow: auto;
-	background-color: white;
-
-	&.burger-opened {
-		overflow: hidden;
-	}
-}
-
-.container {
-	width: 100%;
-	height: 100%;
-	padding: 25px;
-	display: flex;
-	flex-direction: column;
-	gap: 25px;
-}
 
 .mobile {
 	&__wrapper {
@@ -215,4 +196,5 @@ const updateScrollState = (disable: boolean): void => {
 		}
 	}
 }
+
 </style>

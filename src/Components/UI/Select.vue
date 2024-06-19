@@ -20,7 +20,7 @@
 	</div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { computed, reactive, ref } from "vue";
 
 const model = defineModel();
@@ -56,6 +56,7 @@ const showOptionsHandler = e => {
 	showOptions.value = !showOptions.value;
 	document.querySelector("body").addEventListener("pointerdown", bodyClick);
 };
+
 </script>
 
 <style lang="scss">
@@ -63,6 +64,10 @@ const showOptionsHandler = e => {
 	user-select: none;
 	position: relative;
 	width: 100%;
+
+	@media (max-width: 768px) {
+		max-width: 100%;
+	}
 
 	&__input {
 		padding: 10px 5px 10px 15px;
@@ -92,6 +97,7 @@ const showOptionsHandler = e => {
 				border-start-end-radius: 5px;
 				border-end-end-radius: 5px;
 				background-color: var(--white);
+
 			}
 
 			&::after {
@@ -113,6 +119,10 @@ const showOptionsHandler = e => {
 		background-color: #fff;
 		border-radius: 5px;
 		box-shadow: 0 0 3px 0 #000, inset 0 1px 2px 0 rgba(255, 255, 255, 0.5);
+
+		@media (max-width: 768px) {
+			position: fixed;
+		}
 	}
 
 	&__option {
@@ -123,12 +133,6 @@ const showOptionsHandler = e => {
 		&:hover {
 			background-color: var(--pale-grey);
 		}
-	}
-}
-
-@media (max-width: 768px) {
-	.select {
-		max-width: 100%;
 	}
 }
 </style>
