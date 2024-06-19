@@ -1,18 +1,18 @@
 <template>
-	<div class="cart">
+	<aside class="cart">
 		<div class="cart__wrapper">
 			<div class="cart__item" v-for="(value, key) in calculatorData" :key="key">
-				<p class="cart__name">{{ getDisplayName(key) }}:</p>
-				<p class="cart__cost">{{ value }}</p>
+				<p class="cart__label">{{ getDisplayName(key) }}:</p>
+				<p class="cart__value">{{ value }}</p>
 			</div>
 		</div>
-		<div class="cart__wrapper">
-			<div class="cart__item cart__item-total">
-				<p class="cart__name">{{ getDisplayName('total') }}:</p>
-				<p class="cart__cost">{{ calculatorData.total }}</p>
+		<div class="cart__wrapper cart__wrapper--total">
+			<div class="cart__item">
+				<p class="cart__label cart__label--total">{{ getDisplayName('total') }}:</p>
+				<p class="cart__value cart__value--total">{{ calculatorData.total }}</p>
 			</div>
 		</div>
-	</div>
+	</aside>
 </template>
 
 <script setup lang="ts">
@@ -44,25 +44,22 @@ function getDisplayName(key: string): string {
 
 <style lang="scss" scoped>
 .cart {
-	margin-top: 15px;
-	margin-right: 15px;
-	margin-left: auto;
+	margin: 20px 15px 0 auto;
+	padding: 15px;
 	font-size: 14px;
-	align-self: end;
 	display: flex;
 	flex-direction: column;
-	gap: 5px;
-	max-width: 304px;
+	gap: 15px;
+	max-width: 320px;
 	width: 100%;
+	background-color: var(--pale-grey-two);
+	border: 1px solid var(--pale-grey);
+	border-radius: 8px;
 
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
 		gap: 15px;
-		padding: 15px;
-		border-radius: 5px;
-		border: solid 1px var(--pale-grey);
-		background-color: var(--pale-grey-two);
 	}
 
 	&__item {
@@ -70,23 +67,29 @@ function getDisplayName(key: string): string {
 		justify-content: space-between;
 	}
 
-	&__name {
+	&__label {
 		color: #8f8f8f;
 	}
 
-	&__item-total {
-		display: flex;
-		font-weight: 700;
+	&__wrapper--total {
+		border-top: 2px solid var(--pale-grey);
+		padding-top: 15px;
+		margin-top: 10px;
+	}
 
-		justify-content: space-between;
+	&__label--total {
+		color: black;
+	}
+
+	&__value--total {
+		font-size: 16px;
+		color: black;
 	}
 }
 
 @media (max-width: 768px) {
 	.cart {
 		margin-top: 25px;
-		margin-right: 0;
-		max-width: 100%;
 	}
 }
 </style>

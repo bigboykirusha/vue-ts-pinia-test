@@ -1,16 +1,19 @@
 <template>
-	<AddField @add="addItem" />
-	<div class="table__wrapper">
-		<div class="table__options">
-			<p v-if="changed" @click="saveChanges" class="table__save">
-				Сохранить изменения
-			</p>
-			<Settings />
+	<section class="content">
+		<AddField @add="addItem" />
+		<div class="content__wrapper">
+			<div class="content__options">
+				<p v-if="changed" @click="saveChanges" class="content__save">
+					Сохранить изменения
+				</p>
+				<Settings />
+			</div>
+			<Table />
+			<Cart />
 		</div>
-		<Table />
-		<Cart />
-	</div>
+	</section>
 </template>
+
 <script setup lang="ts">
 import { computed } from 'vue';
 import AddField from '../Components/Add.vue';
@@ -31,7 +34,7 @@ const addItem = () => {
 		cost: 100,
 		count: 15,
 		name: { text: 'Мраморный щебень', value: 'marble' },
-		total: 1500
+		total: 1500,
 	});
 };
 
@@ -39,16 +42,26 @@ const saveChanges = () => {
 	tableStore.saveItems();
 };
 </script>
+
 <style lang="scss" scoped>
-.table {
+.content {
+	&__wrapper {
+		background-color: #fff;
+		box-shadow: 0 5px 20px 0 var(--black-7);
+		border: solid 1px var(--pale-grey);
+		border-radius: var(--borderR);
+		padding-bottom: 25px;
+		
+
+		@media (max-width: 768px) {}
+	}
 
 	&__options {
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
 		column-gap: 20px;
-		margin-bottom: 10px;
-
+		padding: 10px 15px;
 	}
 
 	&__save {
@@ -57,7 +70,9 @@ const saveChanges = () => {
 		font-size: 14px;
 
 		&:hover {
+			transition: all 0.2s ease;
 			text-decoration: underline;
+			color: black;
 		}
 	}
 }

@@ -7,10 +7,10 @@
 			<Transition name="fade">
 				<div v-if="showOptions" class="select__options" :style="optionsPosition">
 					<div @click="e => {
-							model = option;
-							showOptions = false;
-							$emit('change', $e);
-						}
+						model = option;
+						showOptions = false;
+						$emit('change', $e);
+					}
 						" v-for="option in options" class="select__option">
 						{{ option.text }}
 					</div>

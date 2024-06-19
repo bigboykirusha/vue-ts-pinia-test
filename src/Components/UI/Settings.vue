@@ -64,9 +64,18 @@ function toggleColumnVisibility(id) {
 .settings {
 	position: relative;
 	display: inline-block;
+	height: 15px;
+	;
 
 	img {
 		cursor: pointer;
+		width: 15px;
+		height: 15px;
+		transition: all 0.3s ease;
+
+		&:hover {
+			transform: rotate(90deg);
+		}
 	}
 
 	&__dropdown {

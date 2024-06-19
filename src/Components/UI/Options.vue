@@ -56,7 +56,6 @@ const showOptionsHandler = e => {
 
 	&__drop {
 		position: absolute;
-		background-color: transparent;
 		border: none;
 		padding: 7px 10px;
 		cursor: pointer;

@@ -15,13 +15,14 @@
 				</VueDraggable>
 			</thead>
 			<VueDraggable class="table__body" v-model="items" tag="tbody" handle=".drag">
-				<tr class="table__row" v-for="(item, itemIndex) in items" :key="item.id">
-					<td class="table__cell" v-for="({ field, head, id }, index) in tableStructure" :key="id"
+				<tr class="table__row" v-for="(item, itemIndex) in items" :key="`${item.id}-${itemIndex}`">
+					<td class="table__cell" v-for="({ field, head, id }, index) in tableStructure" :key="`${id}-${index}`"
 						:style="{ width: columnWidths[index] }">
 						<p class="table__cell-head">{{ head }}</p>
 						<component @change="handleItemChange" v-model="item[field]" :is="componentMap[field].component"
 							:index="itemIndex" :options="componentMap[field].options" :disabled="componentMap[field].disabled"
 							@delete="handleItemDelete(itemIndex)" />
+						<div class="dragging-placeholder"></div>
 					</td>
 				</tr>
 			</VueDraggable>
@@ -39,6 +40,8 @@ import OptionsComponent from '../Components/UI/Options.vue';
 import InputComponent from '../Components/UI/Input.vue';
 import SelectComponent from '../Components/UI/Select.vue';
 import { IItem, ITableColumn } from '../@types/typesTable.ts';
+import { OPTIONS_NAME, OPTIONS_UNIT } from '../@types/data.ts';
+
 
 const tableStore = useTableStore();
 
@@ -52,19 +55,9 @@ const tableStructure = computed<ITableColumn[]>({
 	set: (columns: ITableColumn[]) => tableStore.setTableStructure(columns),
 });
 
-const selectOptionsUnit = ref([
-	{ text: 'Мраморный щебень фр. 2-5 мм, 25кг', value: 25 },
-	{ text: 'Мраморный щебень фр. 2-5 мм, 25кг (белый)', value: 25 },
-	{ text: 'Мраморный щебень фр. 2-5 мм, 25кг (вайт)', value: 25 },
-	{ text: 'Мраморный щебень фр. 2-5 мм, 25кг, возврат', value: 25 },
-	{ text: 'Мраморный щебень фр. 2-5 мм, 1т', value: 1000 },
-]);
+const selectOptionsUnit = ref([...OPTIONS_UNIT]);
 
-const selectOptionsName = ref([
-	{ text: 'Мраморный щебень', value: 'marble' },
-	{ text: 'Гранитный щебень', value: 'granit' },
-	{ text: 'Гравийный щебень', value: 'gravel' },
-]);
+const selectOptionsName = ref([...OPTIONS_NAME]);
 
 const componentMap = shallowRef({
 	drag: { component: DragComponent },
@@ -80,11 +73,23 @@ const tableRef = ref<HTMLElement | null>(null);
 const columnWidths = ref<string[]>([]);
 
 const setColumnWidths = () => {
-	columnWidths.value = window.innerWidth > 768 ? ["100px", "100px", "300px", "250px", "250px", "300px", "100%"] : [];
-};
+	if (tableRef.value) {
+		const headers = tableRef.value.querySelectorAll('.table__header-cell .table__header-text');
+		const totalWidth = tableRef.value.clientWidth;
+		const numColumns = headers.length;
 
-setColumnWidths();
-window.addEventListener("resize", setColumnWidths);
+		columnWidths.value = Array.from(headers).map((header, index) => {
+			if (window.innerWidth <= 768) {
+				return '100%';
+			} else if (index === 0 || index === 1) {
+				return '100px';
+			} else {
+				const width = header.clientWidth + 200;
+				return `${width}px`;
+			}
+		});
+	}
+};
 
 const resizerRef = ref(null);
 
@@ -135,10 +140,11 @@ const handleResizeStart = (e: MouseEvent, index: number) => {
 	document.addEventListener("mouseup", mouseupHandler);
 };
 
-onMounted(setColumnWidths);
+window.addEventListener('load', setColumnWidths);
 window.addEventListener('resize', setColumnWidths);
 
 onMounted(() => {
+	setColumnWidths();
 	tableStore.fetchItems();
 });
 </script>
@@ -149,19 +155,8 @@ onMounted(() => {
 	display: block;
 	overflow-x: auto;
 	overflow-y: hidden;
-
-	&__wrapper {
-		background-color: #fff;
-		box-shadow: 0 5px 20px 0 var(--black-7);
-		border: solid 1px var(--pale-grey);
-		border-radius: var(--borderR);
-		padding: 25px 15px;
-		padding-top: 10px;
-
-		@media (max-width: 768px) {
-			padding: 25px 0;
-		}
-	}
+	padding-right: 4px;
+	;
 
 	&__header-cell {
 		text-align: left;
@@ -172,6 +167,7 @@ onMounted(() => {
 		height: 45px;
 		padding: 0 8px;
 		vertical-align: middle;
+		background-color: #fff;
 		max-width: 20px;
 
 		@media (max-width: 768px) {
@@ -255,7 +251,7 @@ onMounted(() => {
 
 .resizer {
 	position: absolute;
-	margin: 0 2px;
+	padding: 0;
 	right: 0;
 	bottom: 0;
 	top: 0;

@@ -1,5 +1,5 @@
 <template>
-	<p>Общее</p>
+	<h2>Общее</h2>
 </template>
 
 <script setup></script>

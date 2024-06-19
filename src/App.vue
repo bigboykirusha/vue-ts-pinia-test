@@ -1,56 +1,35 @@
 <template>
-	<div class="wrapper">
-		<main class="container">
-			<div class="mobile__wrapper">
-				<img class="mobile__burger" src="@assets/images/burger.svg" alt="burger" @click="openBurger" />
-				<Title text="Проведение ТО и мелкий ремонт" />
-			</div>
-			<Header />
-			<RouterView />
-		</main>
-	</div>
+	<aside class="menu"></aside>
+	<main class="container">
+		<Header />
+		<RouterView />
+	</main>
 </template>
 
 <script setup>
-import Title from "./Components/UI/Title.vue";
 import Header from "./Components/Header.vue";
 import { RouterView } from "vue-router";
-
 </script>
 
 <style lang="scss">
-.wrapper {
-	display: flex;
-	height: 100%;
-	overflow: auto;
-	background-color: white;
-
-}
 
 .container {
 	width: 100%;
-	height: 100%;
+	min-height: 100vh;
 	padding: 25px;
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
 }
 
-.mobile {
-	&__wrapper {
-		display: flex;
-		gap: 25px;
-	}
+.menu {
+	display: flex;
+	background-image: radial-gradient(circle at 29% 0, #000, #1c2734 103%);
+	width: 14.5vw;
+	height: 100%;
 
-	&__burger {
-		margin-top: 9px;
-		align-self: start;
-		cursor: pointer;
+	@media (max-width: 992px) {
 		display: none;
-
-		@media (max-width: 992px) {
-			display: block;
-		}
 	}
 }
 

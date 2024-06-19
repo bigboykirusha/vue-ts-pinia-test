@@ -1,5 +1,5 @@
 <template>
-	<p>Доп. расходы</p>
+	<h2>Доп. расходы</h2>
 </template>
 
 <script setup></script>
