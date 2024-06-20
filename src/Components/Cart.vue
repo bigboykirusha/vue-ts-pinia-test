@@ -56,6 +56,10 @@ function getDisplayName(key: string): string {
 	border: 1px solid var(--pale-grey);
 	border-radius: 8px;
 
+	@media (max-width: 768px) {
+		margin-top: 25px;
+	}
+
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
@@ -84,12 +88,6 @@ function getDisplayName(key: string): string {
 	&__value--total {
 		font-size: 16px;
 		color: black;
-	}
-}
-
-@media (max-width: 768px) {
-	.cart {
-		margin-top: 25px;
 	}
 }
 </style>

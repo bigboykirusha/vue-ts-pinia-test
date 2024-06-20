@@ -1,10 +1,10 @@
 <template>
-	<input v-model="model" @input="handleChange" :class="{ 'input--disabled': disabled }" class="input" type="number"
+	<input min="0" v-model="model" @input="handleChange" @keydown="handleKeyDown" :class="{ 'input--disabled': disabled }" class="input" type="number"
 		:disabled="disabled" />
 </template>
 
 <script setup>
-import { defineModel } from "vue";
+import {watch, defineModel } from "vue";
 
 const props = defineProps({
 	disabled: Boolean,
@@ -18,6 +18,18 @@ const model = defineModel();
 const handleChange = (event) => {
 	emit("change", event.target.value);
 };
+
+const handleKeyDown = (event) => {
+	if (event.key === "-") {
+		event.preventDefault();
+	}
+};
+
+watch(model, (newValue) => {
+	if (newValue === "") {
+		model.value = "0"; // Если пусто, заменяем на "0"
+	}
+});
 </script>
 
 <style lang="scss" scoped>

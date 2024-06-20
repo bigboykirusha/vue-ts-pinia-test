@@ -11,15 +11,16 @@
 	</button>
 </template>
 
-<script lang="ts" setup>
-import { ref, reactive } from "vue";
+<script setup>
+import { ref, reactive, onMounted, onUnmounted } from "vue";
 
 const index = Math.ceil(Math.random() * new Date().getTime());
 
-const bodyClick = e => {
+const bodyClick = (e) => {
 	if (!e.target.closest(`.options_${index}`)) {
 		showDrop.value = false;
-		document.querySelector("body").removeEventListener("pointerdown", bodyClick);
+		document.body.classList.remove("no-scroll");
+		document.removeEventListener("click", bodyClick);
 	}
 };
 
@@ -27,13 +28,23 @@ const showDrop = ref(false);
 const refOptions = ref(null);
 
 const optionsPosition = reactive({ top: 0, left: 0 });
-const showOptionsHandler = e => {
+const showOptionsHandler = (e) => {
 	const position = refOptions.value.getBoundingClientRect();
 	optionsPosition.top = position.top + position.height + 5 + "px";
 	optionsPosition.left = position.left + "px";
 	showDrop.value = !showDrop.value;
-	document.querySelector("body").addEventListener("pointerdown", bodyClick);
+	if (showDrop.value) {
+		document.body.classList.add("no-scroll");
+		document.addEventListener("click", bodyClick);
+	} else {
+		document.body.classList.remove("no-scroll");
+		document.removeEventListener("click", bodyClick);
+	}
 };
+
+onUnmounted(() => {
+	document.body.classList.remove("no-scroll");
+});
 </script>
 
 <style lang="scss">

@@ -19,7 +19,7 @@
 					<td class="table__cell" v-for="({ field, head, id }, index) in tableStructure" :key="`${id}-${index}`"
 						:style="{ width: columnWidths[index] }">
 						<p class="table__cell-head">{{ head }}</p>
-						<component @change="handleItemChange" v-model="item[field]"  :is="componentMap[field].component"
+						<component @change="handleItemChange" v-model="item[field]" :is="componentMap[field].component"
 							:index="itemIndex" :options="componentMap[field].options" :disabled="componentMap[field].disabled"
 							@delete="handleItemDelete(itemIndex)" />
 						<div class="dragging-placeholder"></div>
@@ -46,7 +46,7 @@ import { OPTIONS_NAME, OPTIONS_UNIT } from '../@types/data.ts';
 const tableStore = useTableStore();
 
 const items = computed<IItem[]>({
-	get: () => tableStore.getItemsWithTotal,
+	get: () => tableStore.getItems,
 	set: (val) => tableStore.setItems(val),
 });
 
@@ -75,14 +75,12 @@ const columnWidths = ref<string[]>([]);
 const setColumnWidths = () => {
 	if (tableRef.value) {
 		const headers = tableRef.value.querySelectorAll('.table__header-cell .table__header-text');
-		const totalWidth = tableRef.value.clientWidth;
-		const numColumns = headers.length;
 
 		columnWidths.value = Array.from(headers).map((header, index) => {
 			if (window.innerWidth <= 768) {
 				return '100%';
 			} else if (index === 0 || index === 1) {
-				return '100px';
+				return '120px';
 			} else {
 				const width = header.clientWidth + 200;
 				return `${width}px`;
@@ -169,6 +167,7 @@ onMounted(() => {
 		vertical-align: middle;
 		background-color: #fff;
 		max-width: 20px;
+		white-space: nowrap;
 
 		@media (max-width: 768px) {
 			max-width: 100%;
@@ -176,7 +175,6 @@ onMounted(() => {
 
 		&-text {
 			overflow: hidden;
-			white-space: nowrap;
 		}
 
 		&:first-child {

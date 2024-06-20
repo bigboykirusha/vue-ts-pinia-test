@@ -35,41 +35,4 @@ import { RouterView } from "vue-router";
 		display: none;
 	}
 }
-
-.columns {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	padding: 4px 4px;
-
-	&__wrap {
-		display: flex;
-		gap: 4px;
-		align-items: center;
-		position: relative;
-	}
-
-	&_draggable {
-		display: flex;
-		flex-direction: column;
-
-		& .columns__wrap {
-			padding: 3px 0;
-
-			&:first-child {
-				padding-top: 0;
-			}
-
-			&:last-child {
-				padding-bottom: 0;
-			}
-		}
-	}
-
-	&__drag {
-		width: 10px;
-		height: 10px;
-	}
-}
-
 </style>

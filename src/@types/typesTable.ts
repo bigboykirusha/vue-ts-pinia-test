@@ -27,7 +27,6 @@ export interface IState {
    items: IItem[];
    changed: boolean;
    tableStructure: ITableColumn[];
-   tableStructureCopy: ITableColumn[];
    total: number;
    totalCount: number;
    totalWeight: number;

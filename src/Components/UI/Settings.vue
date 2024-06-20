@@ -38,7 +38,7 @@ const tableStructure = computed({
 	set: (items) => store.setTableStructure(items),
 });
 
-const tableStructureCopy = computed(() => store.tableStructureCopy);
+const tableStructureCopy = computed(() => store.tableStructure);
 
 document.body.addEventListener('click', (e) => {
 	if (!e.target.closest(`.settings_${index}`)) {
@@ -66,7 +66,7 @@ function toggleColumnVisibility(id) {
 	position: relative;
 	display: inline-block;
 	height: 15px;
-	;
+	font-size: 14px;
 
 	img {
 		cursor: pointer;

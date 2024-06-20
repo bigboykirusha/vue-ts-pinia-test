@@ -11,42 +11,29 @@
 	</header>
 	<nav class="links">
 		<div class="links__wrapper">
-			<RouterLink :to="`about`" class="links__link" :active="true">Общее</RouterLink>
-			<RouterLink :to="`/`" class="links__link">Товары</RouterLink>
-			<RouterLink :to="`more`" class="links__link" :active="true">Доп. расходы</RouterLink>
+			<RouterLink :to="'about'" class="links__link" :active="true">Общее</RouterLink>
+			<RouterLink :to="'/'" class="links__link">Товары</RouterLink>
+			<RouterLink :to="'more'" class="links__link" :active="true">Доп. расходы</RouterLink>
 		</div>
 	</nav>
 	<div v-if="isMenuActive" class="fullscreen-menu">
 		<div class="fullscreen-menu__content">
-			<RouterLink :to="`about`" class="fullscreen-menu__link" @click="closeMenu">Общее</RouterLink>
-			<RouterLink :to="`/`" class="fullscreen-menu__link" @click="closeMenu">Товары</RouterLink>
-			<RouterLink :to="`more`" class="fullscreen-menu__link" @click="closeMenu">Доп. расходы</RouterLink>
+			<RouterLink :to="'about'" class="fullscreen-menu__link" @click="closeMenu">Общее</RouterLink>
+			<RouterLink :to="'/'" class="fullscreen-menu__link" @click="closeMenu">Товары</RouterLink>
+			<RouterLink :to="'more'" class="fullscreen-menu__link" @click="closeMenu">Доп. расходы</RouterLink>
 		</div>
 	</div>
 </template>
 
+
 <script lang="ts" setup>
-import { ref } from 'vue';
 
-const isMenuActive = ref(false);
+import { useMenu } from '../hooks/useMenu';
+const { isMenuActive, toggleMenu, closeMenu } = useMenu();
 
-const toggleMenu = (): void => {
-	isMenuActive.value = !isMenuActive.value;
-	updateScrollState(isMenuActive.value);
-};
-
-const closeMenu = (): void => {
-	isMenuActive.value = false;
-	updateScrollState(isMenuActive.value);
-};
-
-const updateScrollState = (disable: boolean): void => {
-	document.body.classList.toggle('no-scroll', disable);
-};
 </script>
 
 <style lang="scss" scoped>
-
 .mobile {
 	&__wrapper {
 		display: flex;
@@ -196,5 +183,4 @@ const updateScrollState = (disable: boolean): void => {
 		}
 	}
 }
-
 </style>

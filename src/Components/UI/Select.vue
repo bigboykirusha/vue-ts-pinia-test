@@ -6,12 +6,7 @@
 		<Teleport to="#app">
 			<Transition name="fade">
 				<div v-if="showOptions" class="select__options" :style="optionsPosition">
-					<div @click="e => {
-						model = option;
-						showOptions = false;
-						$emit('change', $e);
-					}
-						" v-for="option in options" class="select__option">
+					<div @click="selectOption(option)" v-for="option in options" :key="option.id" class="select__option">
 						{{ option.text }}
 					</div>
 				</div>
@@ -20,8 +15,8 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
-import { computed, reactive, ref } from "vue";
+<script setup>
+import { computed, ref, onMounted, onUnmounted } from "vue";
 
 const model = defineModel();
 const optionModel = computed({
@@ -38,28 +33,48 @@ const emit = defineEmits(["change"]);
 
 const index = Math.ceil(Math.random() * new Date().getTime());
 
-const bodyClick = e => {
+const bodyClick = (e) => {
 	if (!e.target.closest(`.select_${index}`)) {
 		showOptions.value = false;
-		document.querySelector("body").removeEventListener("pointerdown", bodyClick);
+		document.body.classList.remove("no-scroll");
+		document.removeEventListener("click", bodyClick);
 	}
 };
 
 const showOptions = ref(false);
 
-const optionsPosition = reactive({ width: 0, top: 0, left: 0 });
-const showOptionsHandler = e => {
-	const position = e.target.getBoundingClientRect();
-	optionsPosition.width = position.width + "px";
-	optionsPosition.top = position.top + position.height + 5 + "px";
-	optionsPosition.left = position.left + "px";
+const optionsPosition = computed(() => {
+	const position = document.querySelector(`.select_${index}`)?.getBoundingClientRect();
+	return {
+		width: position ? `${position.width}px` : "auto",
+		top: position ? `${position.top + position.height + 5}px` : "auto",
+		left: position ? `${position.left}px` : "auto",
+	};
+});
+
+const showOptionsHandler = (e) => {
 	showOptions.value = !showOptions.value;
-	document.querySelector("body").addEventListener("pointerdown", bodyClick);
+	if (showOptions.value) {
+		document.body.classList.add("no-scroll");
+		document.addEventListener("click", bodyClick);
+	} else {
+		document.body.classList.remove("no-scroll");
+		document.removeEventListener("click", bodyClick);
+	}
 };
 
+const selectOption = (option) => {
+	model.value = option;
+	showOptions.value = false;
+	emit("change", option);
+};
+
+onUnmounted(() => {
+	document.body.classList.remove("no-scroll");
+});
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .select {
 	user-select: none;
 	position: relative;
@@ -97,7 +112,6 @@ const showOptionsHandler = e => {
 				border-start-end-radius: 5px;
 				border-end-end-radius: 5px;
 				background-color: var(--white);
-
 			}
 
 			&::after {
@@ -123,6 +137,10 @@ const showOptionsHandler = e => {
 		@media (max-width: 768px) {
 			position: fixed;
 		}
+
+		&.show {
+			display: block;
+		}
 	}
 
 	&__option {
@@ -135,4 +153,5 @@ const showOptionsHandler = e => {
 		}
 	}
 }
+
 </style>

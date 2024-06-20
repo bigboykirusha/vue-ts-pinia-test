@@ -1,7 +1,7 @@
 <template>
-	<section class="add-field">
-		<div @click="$emit('add')" class="add-field__button">
-			<img src="@assets/images/add.png" alt="add" class="add-field__img" />
+	<section class="add">
+		<div @click="$emit('add')" class="add__button">
+			<img src="@assets/images/add.png" alt="add" class="add__img" />
 			<span>Добавить строку</span>
 		</div>
 	</section>
@@ -12,7 +12,7 @@ defineEmits(['add']);
 </script>
 
 <style lang="scss" scoped>
-.add-field {
+.add {
 	padding: 20px 25px;
 	margin-bottom: 25px;
 	border-radius: var(--borderR);

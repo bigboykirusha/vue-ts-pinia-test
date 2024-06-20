@@ -21,6 +21,11 @@ const drag = ref(null);
 	gap: 5px;
 	cursor: pointer;
 
+	@media (max-width: 768px) {
+		height: auto !important;
+		justify-content: flex-start;
+	}
+
 	&__img {
 		pointer-events: none;
 		user-select: none;
@@ -28,14 +33,6 @@ const drag = ref(null);
 
 	&__index {
 		font-weight: bold;
-	}
-
-}
-
-@media (max-width: 768px) {
-	.drag {
-		height: auto !important;
-		justify-content: flex-start;
 	}
 }
 </style>

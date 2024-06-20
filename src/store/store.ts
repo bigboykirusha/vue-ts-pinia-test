@@ -9,16 +9,14 @@ export const useTableStore = defineStore({
       items: [],
       changed: false,
       tableStructure: [...TABLE],
-      tableStructureCopy: [...TABLE],
       total: 0,
       totalCount: 0,
       totalWeight: 0,
    }),
    getters: {
       getChanged: (state): boolean => state.changed,
-      getItems: (state): IItem[] => state.items,
       getLastId: (state): number => (state.items.length > 0 ? state.items[state.items.length - 1].id : 1),
-      getItemsWithTotal: (state): IItem[] => {
+      getItems: (state): IItem[] => {
          return state.items.map((item) => {
             item.total = item.cost * item.count;
             return item;
@@ -27,7 +25,6 @@ export const useTableStore = defineStore({
       getTotal: (state): number => state.items.reduce((acc, item) => acc + item.total, 0),
       getTotalCount: (state): number => state.items.reduce((acc, item) => acc + item.count, 0),
       getTotalWeight: (state): number => state.items.reduce((acc, item) => acc + item.unit.value * item.count, 0),
-      getTableStructureCopy: (state): ITableColumn[] => state.tableStructureCopy,
    },
    actions: {
       setItems(items: IItem[]) {
@@ -55,7 +52,7 @@ export const useTableStore = defineStore({
             const response = await axios.get<IItem[]>('https://fee0606356a4e8e2.mokky.dev/items');
             this.setItems(response.data);
          } catch (error) {
-            console.error('Error fetching items:', error);
+            console.error('Ошибка при получении элементов:', error);
          }
       },
       async saveItems() {
@@ -64,7 +61,7 @@ export const useTableStore = defineStore({
             const changedItems = this.items;
             await axios.patch('https://fee0606356a4e8e2.mokky.dev/items', changedItems);
          } catch (error) {
-            console.error('Error saving items:', error);
+            console.error('Ошибка при сохранении элементов:', error);
          }
       },
    },
