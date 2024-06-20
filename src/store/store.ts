@@ -9,13 +9,17 @@ export const useTableStore = defineStore({
       items: [],
       changed: false,
       tableStructure: [...TABLE],
+      tableStructureCopy: [...TABLE],
       total: 0,
       totalCount: 0,
       totalWeight: 0,
    }),
    getters: {
       getChanged: (state): boolean => state.changed,
-      getLastId: (state): number => (state.items.length > 0 ? state.items[state.items.length - 1].id : 1),
+      getLastId: (state): number => {
+         if (state.items.length === 0) return 1;
+         return state.items.reduce((maxId, item) => Math.max(maxId, item.id), 0);
+      },
       getItems: (state): IItem[] => {
          return state.items.map((item) => {
             item.total = item.cost * item.count;
@@ -25,6 +29,7 @@ export const useTableStore = defineStore({
       getTotal: (state): number => state.items.reduce((acc, item) => acc + item.total, 0),
       getTotalCount: (state): number => state.items.reduce((acc, item) => acc + item.count, 0),
       getTotalWeight: (state): number => state.items.reduce((acc, item) => acc + item.unit.value * item.count, 0),
+      getTableStructureCopy: (state): ITableColumn[] => state.tableStructureCopy,
    },
    actions: {
       setItems(items: IItem[]) {

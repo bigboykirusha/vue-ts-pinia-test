@@ -38,7 +38,7 @@ const tableStructure = computed({
 	set: (items) => store.setTableStructure(items),
 });
 
-const tableStructureCopy = computed(() => store.tableStructure);
+const tableStructureCopy = computed(() => store.tableStructureCopy);
 
 document.body.addEventListener('click', (e) => {
 	if (!e.target.closest(`.settings_${index}`)) {

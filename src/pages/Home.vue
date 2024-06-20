@@ -15,17 +15,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted } from 'vue';
 import Add from '../Components/Add.vue';
 import Table from '../Components/Table.vue';
 import Cart from '../Components/Cart.vue';
 import Settings from '../Components/UI/Settings.vue';
 import { addItem as addItemToStore } from '../Utils/createNewItem.ts';
-
 import { useTableStore } from '../store/store.ts';
 
 const tableStore = useTableStore();
-
 const changed = computed(() => tableStore.changed);
 
 const addItem = () => {
@@ -41,6 +39,23 @@ const addItem = () => {
 const saveChanges = () => {
 	tableStore.saveItems();
 };
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+	if (changed.value) {
+		const confirmationMessage = 'У вас есть несохраненные изменения. Вы уверены, что хотите уйти?';
+		event.returnValue = confirmationMessage; 
+		return confirmationMessage;
+	}
+};
+
+onMounted(() => {
+	window.addEventListener('beforeunload', handleBeforeUnload);
+});
+
+onBeforeUnmount(() => {
+	window.removeEventListener('beforeunload', handleBeforeUnload);
+
+});
 </script>
 
 <style lang="scss" scoped>
@@ -51,7 +66,6 @@ const saveChanges = () => {
 		border: solid 1px var(--pale-grey);
 		border-radius: var(--borderR);
 		padding-bottom: 25px;
-
 
 		@media (max-width: 768px) {
 			box-shadow: none;
